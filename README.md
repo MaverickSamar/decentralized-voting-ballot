@@ -5,7 +5,7 @@ Built a voting ballot application with 4 NFL Teams such that there is a chairper
 <small> The smart contract used is based on the example in solidity docs </small>
 
 
-##Business Logics handled
+## Business Logics handled
 1. Chairperson registers accounts to vote
 2. No other account can register accounts to vote
 3. Can't register already registered user
@@ -13,17 +13,17 @@ Built a voting ballot application with 4 NFL Teams such that there is a chairper
 5. Registered accounts cannot vote twice
 6. Can't vote a person who is not there
 
-##Business logic to be included 
+## Business logic to be included 
 1. State change rules
 2. Save start time as a state variable
 
-##Prerequisite
+## Prerequisite
 1. Ganache
 2. NodeJs
 3. Metamask
 4. Truffle
 
-##Instruction for truffle testing
+## Instruction for truffle testing
 1. Clone the repository to a local folder
 2. Start Ganache 
 3. Go to the cloned folder using command line
@@ -50,7 +50,7 @@ This should print the following in the console
 
 
 
-##Instruction for DApp
+## Instruction for DApp
 
 1. Now to start the nodeJs server execute npm run dev
 2. This should start the front end of the application at localhost:3000
