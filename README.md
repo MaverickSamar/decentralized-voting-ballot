@@ -35,7 +35,7 @@ This should print the following in the console
 
  Contract: BallotContract
     ✓ contract deployment
-    ✓ valid users registration 
+    ✓ valid users registration
     ✓ valid voting
     ✓ validate winner
     ✓ valid votes
@@ -45,9 +45,7 @@ This should print the following in the console
     ✓ should NOT vote twice
     ✓ should NOT vote unknown person
 
-
-  10 passing
-
+    10 passing
 
 
 ## Instruction for DApp
