@@ -95,7 +95,7 @@ handleregister: function(addr){
 
       return voteInstance.register(addr);
     }).then( function(){
-      
+
       alert(addr + " is registered successfully")
     }).catch( function(err){
       console.log(err.message);

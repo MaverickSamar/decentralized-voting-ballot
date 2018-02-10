@@ -1,5 +1,4 @@
-pragma solidity ^0.4.4;
-
+pragma solidity ^0.4.11;
 
 contract Ballot {
 
@@ -9,6 +8,12 @@ contract Ballot {
         uint8 vote; /// address delegate;
     }
 
+    //modifer
+    modifier onlyOwner () {
+      require(msg.sender == chairperson);
+      _;
+    }
+
     /* struct Proposal {
         uint voteCount; // could add other data about proposal
     } */
@@ -16,7 +21,7 @@ contract Ballot {
     mapping(address => Voter) public voters;
     uint[4] public proposals;
 
-    /// Create a new ballot with 4 different proposals.
+    // Create a new ballot with 4 different proposals.
     function Ballot() public {
         chairperson = msg.sender;
         voters[chairperson].weight = 2;
@@ -24,17 +29,16 @@ contract Ballot {
 
     /// Give $(toVoter) the right to vote on this ballot.
     /// May only be called by $(chairperson).
-    function register(address toVoter) public {
-        if (msg.sender != chairperson || voters[toVoter].voted) return;
+    function register(address toVoter) public onlyOwner{
+        if(voters[toVoter].weight != 0) revert();
         voters[toVoter].weight = 1;
         voters[toVoter].voted = false;
     }
 
     /// Give a single vote to proposal $(toProposal).
     function vote(uint8 toProposal) public {
-
         Voter storage sender = voters[msg.sender];
-        if (sender.voted || toProposal >= 4) return;
+        if (sender.voted || toProposal >= 4 || sender.weight == 0) revert();
         sender.voted = true;
         sender.vote = toProposal;
         proposals[toProposal] += sender.weight;
@@ -52,5 +56,4 @@ contract Ballot {
     function getCount() public constant returns (uint[4]) {
         return proposals;
     }
-
 }
