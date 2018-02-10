@@ -12,7 +12,7 @@ App = {
       for (i = 0; i < data.length; i ++) {
         proposalTemplate.find('.panel-title').text(data[i].name);
         proposalTemplate.find('img').attr('src', data[i].picture);
-        proposalTemplate.find('.age').text(data[i].age);
+        //proposalTemplate.find('.age').text(data[i].age);
         proposalTemplate.find('.party').text(data[i].party);
         proposalTemplate.find('.btn-vote').attr('data-id', data[i].id);
 
@@ -30,7 +30,7 @@ App = {
       App.web3Provider = web3.currentProvider;
     } else {
       // If no injected web3 instance is detected, fallback to the TestRPC
-      App.web3Provider = new Web3.providers.HttpProvider('http://127.0.0.1:9545');
+      App.web3Provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545');
     }
     web3 = new Web3(App.web3Provider);
 
@@ -42,24 +42,30 @@ App = {
       $.getJSON('Ballot.json', function(data) {
     // Get the necessary contract artifact file and instantiate it with truffle-contract
     var voteArtifact = data;
-    App.contracts.vote = TruffleContract(voteArtifact);
+    App.contracts.info = TruffleContract(voteArtifact);
 
     // Set the provider for our contract
-    App.contracts.vote.setProvider(App.web3Provider);
+    App.contracts.info.setProvider(App.web3Provider);
 
     // Use our contract to retrieve and mark the voted pets
     // return App.markvoted();     // TOD
+    return App.deploy();
   });
+    //return App.bindEvents();
+  },
 
-    return App.bindEvents();
+  deploy : function(){
+    App.contracts.info.deployed().then(function(instance) {
+      App.contracts.instance = instance;
+      console.log(App.contracts.instance);
+       App.bindEvents();
+    });
   },
 
   bindEvents: function() {
     $(document).on('click', '.btn-vote', App.handlevote);
     $(document).on('click', '#win-count', App.declareWinner);
     $(document).on('click', '#register', function(){ var ad = $('#enter_address').val(); console.log(ad); App.handleregister(ad);   });
-
-
   },
 
   // markvoted: function(voters, account) {
@@ -87,20 +93,14 @@ handleregister: function(addr){
 
     //event.preventDefault();
 
-    var voteInstance;
-    console.log("entered address is:" + addr);
-
-    App.contracts.vote.deployed().then(function(instance) {
-      voteInstance = instance;
-
-      return voteInstance.register(addr);
-    }).then( function(){
-
-      alert(addr + " is registered successfully")
+    App.contracts.instance.register(addr).then( function(result){
+      if(result.receipt.status == '0x01')
+        alert(addr + " is registered successfully")
+      else
+        alert(addr + " is not registered successfully")
     }).catch( function(err){
       console.log(err.message);
     })
-
 },
 
 // handling the vote
@@ -108,21 +108,19 @@ handleregister: function(addr){
     event.preventDefault();
 
     var proposalId = parseInt($(event.target).data('id'));
-
-    var voteInstance;
-
+    console.log("proposal id "+proposalId);
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
         console.log(error);
       }
 
       var account = accounts[0];
-
-      App.contracts.vote.deployed().then(function(instance) {
-        voteInstance = instance;
-
-        // Execute vote as a transaction by sending account
-        return voteInstance.vote(proposalId, {from: account});
+      console.log("account id "+account);
+      App.contracts.instance.vote(proposalId, {from: account}).then(function(result) {
+        if(result.receipt.status == '0x01')
+          alert(account + " voting done successfully")
+        else
+          alert(account + " voting not done successfully")
       })
       // .then(function(result) {
       //   return App.markvoted();
@@ -135,24 +133,11 @@ handleregister: function(addr){
 
 
   declareWinner : function() {
-
-    var voteInstance;
-    console.log(voteInstance);
-
-    App.contracts.vote.deployed().then(function(instance) {
-      voteInstance = instance;
-    //  console.log(voteInstance.winningProposal.call());
-      return voteInstance.winningProposal();
-    }).then(function(res){
-      console.log(res.toString());
-      console.log(App.names[res]);
-      alert(App.names[res] + "  is the winner ! :)");
-
-
+    App.contracts.instance.winningProposal().then(function(result){
+      alert(App.names[result] + "  is the winner ! :)");
     }).catch(function(err){
       console.log(err.message);
     })
-
   }
 
 
