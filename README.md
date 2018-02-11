@@ -13,22 +13,22 @@ Built a voting ballot application with 4 NFL Teams such that there is a chairper
 5. Registered accounts cannot vote twice
 6. Can't vote a person who is not there
 
-## Business logic to be included 
+## Business logic to be included
 1. State change rules
 2. Save start time as a state variable
 
 ## Prerequisite
-1. Ganache
+1. Ganache()
 2. NodeJs
-3. Metamask
-4. Truffle
+3. Metamask (3.14.1)
+4. Truffle (v4.0.6)
 
 ## Instruction for truffle testing
 1. Clone the repository to a local folder
-2. Start Ganache 
+2. Start Ganache
 3. Go to the cloned folder using command line
 4. Execute truffle compile
-5. Execute truffle migrate
+5. Execute truffle migrate --network dev_ganache
 6. Execute truffle test
 
 This should print the following in the console
@@ -60,10 +60,3 @@ This should print the following in the console
 8. Finally, after voting you can click declare winner
 
 Note: Don't refresh the web page as it deploys a new contract using the current account. You may have to repeat from registration  
-
-
-
-
-
-
-
