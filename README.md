@@ -18,17 +18,16 @@ Built a voting ballot application with 4 NFL Teams such that there is a chairper
 2. Save start time as a state variable
 
 ## Prerequisite
-1. Ganache()
-2. NodeJs
-3. Metamask (3.14.1)
-4. Truffle (v4.0.6)
+1. NodeJs
+2. Metamask (3.14.1)
+3. Truffle (v4.0.4)
 
 ## Instruction for truffle testing
 1. Clone the repository to a local folder
-2. Start Ganache
-3. Go to the cloned folder using command line
-4. Execute truffle compile
-5. Execute truffle migrate --network dev_ganache
+2. Go to the cloned folder using command line
+3. Execute truffle compile
+4. Open a new command line and execute truffle develop to start the blockchain network
+5. In the old terminal execute truffle migrate --reset
 6. Execute truffle test
 
 This should print the following in the console
@@ -52,11 +51,13 @@ This should print the following in the console
 
 1. Now to start the nodeJs server execute npm run dev
 2. This should start the front end of the application at localhost:3000
-3. The contract is deployed when the page is loaded from the account that is active in the metamask and that account becomes the chairperson. Lets assume that this account as Account 1 in metamask.
-4. Now go the the Ganache GUI and copy the second account listed and paste in the address box and hit register. (Note: the account in Metamask should be Account 1)
-5. Repeat the step 4 for other accounts and please keep in mind that you should not change the Metamask account while registering
+3. Open Metamask in your chrome browser and enter the key phrase you got after executing truffle develop
+4. Now connect to private network using http://127.0.0.1:9545 and create as many accounts as you want
+5. Now you should be in the first account in the metamask and register all other accounts
 6. Now to cast vote from the account 2 change the account in Metamask from account 1 to account 2 and then click vote.
 7. To vote from any account switch to that account in metamask and then click vote
 8. Finally, after voting you can click declare winner
 
-Note: Don't refresh the web page as it deploys a new contract using the current account. You may have to repeat from registration  
+Note:
+1. To deploy a new instance of the contract exit the npm server and then execute truffle migrate --reset and then start the server again.
+2. The contract is deployed from account[0] i.e the first account in the metamask.
