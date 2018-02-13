@@ -2,7 +2,7 @@ App = {
   web3Provider: null,
   contracts: {},
   names: new Array(),
-  url: 'http://127.0.0.1:7545',
+  url: 'http://127.0.0.1:9545',
   init: function() {
     // Load CANDIDATES
     $.getJSON('../proposals.json', function(data) {
@@ -13,7 +13,7 @@ App = {
         proposalTemplate.find('.panel-title').text(data[i].name);
         proposalTemplate.find('img').attr('src', data[i].picture);
         //proposalTemplate.find('.age').text(data[i].age);
-        proposalTemplate.find('.party').text(data[i].party);
+        //proposalTemplate.find('.party').text(data[i].party);
         proposalTemplate.find('.btn-vote').attr('data-id', data[i].id);
 
         proposalsRow.append(proposalTemplate.html());
