@@ -5,7 +5,8 @@ contract Ballot {
     struct Voter {
         uint weight;
         bool voted;
-        uint8 vote; /// address delegate;
+        uint8 vote;
+        // address delegate;
     }
 
     //modifer

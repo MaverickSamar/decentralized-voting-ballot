@@ -2,8 +2,6 @@ let Ballot = artifacts.require("./Ballot.sol");
 
 let ballotInstance;
 
-let _amount = [6534, 1234, 123];
-
 let _voting = {
 	"winner": 0,
 	"one": 1,
@@ -77,7 +75,7 @@ contract('BallotContract', function (accounts) {
   });
 
 //Negative cases
-  it("should NOT accept unauthorized registeration", function () {
+  it("should NOT accept unauthorized registration", function () {
   return ballotInstance.register(accounts[6], { from: accounts[1]})
 		.then(function (result) {
 				throw("modifer not working");
@@ -103,7 +101,7 @@ contract('BallotContract', function (accounts) {
 	})
 });
 
-  it("should NOT vote from unautherized voting", function () {
+  it("should NOT vote from unauthorized account", function () {
   return ballotInstance.vote(1, {from: accounts[6]})
 		.then(function (result) {
 				throw("modifer not working");

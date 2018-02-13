@@ -38,9 +38,9 @@ This should print the following in the console
     ✓ valid voting
     ✓ validate winner
     ✓ valid votes
-    ✓ should NOT accept unautherized registeration
+    ✓ should NOT accept unauthorized registration
     ✓ should NOT register already registered user
-    ✓ should NOT vote from unautherized voting
+    ✓ should NOT vote from unauthorized account
     ✓ should NOT vote twice
     ✓ should NOT vote unknown person
 
