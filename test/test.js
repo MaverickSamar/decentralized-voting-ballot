@@ -77,34 +77,68 @@ contract('BallotContract', function (accounts) {
   });
 
 //Negative cases
-  it("should NOT accept unautherized registeration", function () {
-    return ballotInstance.register(accounts[6], { from: accounts[1]}).then(function (result) {
-      assert.equal('0x00', result.receipt.status, 'should NOT accept unautherized registeration');
-    });
+  it("should NOT accept unauthorized registeration", function () {
+  return ballotInstance.register(accounts[6], { from: accounts[1]})
+		.then(function (result) {
+				throw("modifer not working");
+    }).catch(function (e) {
+			if(e === "modifer not working") {
+				assert(false);
+			} else {
+				assert(true);
+			}
+		})
   });
 
   it("should NOT register already registered user", function () {
-    return ballotInstance.register(accounts[1], { from: accounts[0]}).then(function (result) {
-      assert.equal('0x00', result.receipt.status, 'should NOT accept unautherized registeration');
-    });
-  });
+  return ballotInstance.register(accounts[1], { from: accounts[0]})
+		.then(function (result) {
+			throw("modifer not working");
+	}).catch(function (e) {
+		if(e === "modifer not working") {
+			assert(false);
+		} else {
+			assert(true);
+		}
+	})
+});
 
   it("should NOT vote from unautherized voting", function () {
-    return ballotInstance.vote(1, {from: accounts[6]}).then(function (result) {
-      assert.equal('0x00', result.receipt.status, 'should NOT vote from unautherized voting');
-    });
+  return ballotInstance.vote(1, {from: accounts[6]})
+		.then(function (result) {
+				throw("modifer not working");
+    }).catch(function (e) {
+			if(e === "modifer not working") {
+				assert(false);
+			} else {
+				assert(true);
+			}
+		})
   });
 
   it("should NOT vote twice", function () {
-    return ballotInstance.vote(1, {from: accounts[1]}).then(function (result) {
-      assert.equal('0x00', result.receipt.status, 'should NOT vote twice');
-    });
-  });
+  return ballotInstance.vote(1, {from: accounts[1]})
+		.then(function (result) {
+				throw("modifer not working");
+		}).catch(function (e) {
+			if(e === "modifer not working") {
+				assert(false);
+			} else {
+				assert(true);
+			}
+		})
+	});
 
   it("should NOT vote unknown person", function () {
-    return ballotInstance.vote(4, {from: accounts[5]}).then(function (result) {
-      assert.equal('0x00', result.receipt.status, 'should NOT vote unknown person');
-    });
-  });
-
+    return ballotInstance.vote(4, {from: accounts[5]})
+		.then(function (result) {
+				throw("modifer not working");
+		}).catch(function (e) {
+			if(e === "modifer not working") {
+				assert(false);
+			} else {
+				assert(true);
+			}
+		})
+	});
 });
