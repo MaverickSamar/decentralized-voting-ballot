@@ -9,10 +9,10 @@ let _voting = {
 	"three": 3
 }
 
-contract('BallotContract', function (accounts) {
+contract('Ballot Contract', function (accounts) {
   //accounts[0] is the default account
   //Test case 1
-  it("contract deployment", function() {
+  it("Contract Deployment", function() {
     return Ballot.deployed().then(function (instance) {
       ballotInstance = instance;
       assert(ballotInstance !== undefined, 'Ballot contract should be defined');
@@ -20,67 +20,67 @@ contract('BallotContract', function (accounts) {
   });
 
   //Test case 2
-  it("valid users registeration", function() {
+  it("Valid User Registration", function() {
     return ballotInstance.register(accounts[1], { from: accounts[0]}).then(function (result) {
-      assert.equal('0x01', result.receipt.status, 'balance should be equal');
+      assert.equal('0x01', result.receipt.status, 'Registration is valid');
       return ballotInstance.register(accounts[2], { from: accounts[0]});
     }).then(function (result) {
-      assert.equal('0x01', result.receipt.status, 'balance should be equal');
+      assert.equal('0x01', result.receipt.status, 'Registration is valid');
       return ballotInstance.register(accounts[3], { from: accounts[0]});
     }).then(function(result) {
-      assert.equal('0x01', result.receipt.status, 'balance should be equal');
+      assert.equal('0x01', result.receipt.status, 'Registration is valid');
       return ballotInstance.register(accounts[4], { from: accounts[0]});
     }).then(function(result) {
-      assert.equal('0x01', result.receipt.status, 'balance should be equal');
+      assert.equal('0x01', result.receipt.status, 'Registration is valid');
       return ballotInstance.register(accounts[5], { from: accounts[0]});
     }).then(function(result) {
-      assert.equal('0x01', result.receipt.status, 'balance should be equal');
+      assert.equal('0x01', result.receipt.status, 'Registration is valid');
     });
   });
 
   //Test case 3
-  it("valid voting", function() {
+  it("Valid Voting", function() {
     return ballotInstance.vote(_voting.winner, {from: accounts[0]}).then(function (result) {
-      assert.equal('0x01', result.receipt.status, 'voting is done');
+      assert.equal('0x01', result.receipt.status, 'Voting is done');
       return ballotInstance.vote(_voting.one, {from: accounts[1]});
     }).then(function (result) {
-      assert.equal('0x01', result.receipt.status, 'voting is done');
+      assert.equal('0x01', result.receipt.status, 'Voting is done');
       return ballotInstance.vote(_voting.two, {from: accounts[2]});
     }).then(function (result) {
-      assert.equal('0x01', result.receipt.status, 'voting is done');
+      assert.equal('0x01', result.receipt.status, 'Voting is done');
       return ballotInstance.vote(_voting.three, {from: accounts[3]});
     }).then(function (result) {
-      assert.equal('0x01', result.receipt.status, 'voting is done');
+      assert.equal('0x01', result.receipt.status, 'Voting is done');
       return ballotInstance.vote(_voting.winner, {from: accounts[4]});
     }).then(function (result) {
-      assert.equal('0x01', result.receipt.status, 'voting is done');
+      assert.equal('0x01', result.receipt.status, 'Voting is done');
     });
   });
 
   //Test case 4
-  it("validate winner", function () {
+  it("Validate Winner", function () {
     return ballotInstance.winningProposal.call().then(function (result) {
-      assert.equal(_voting.winner, result.toNumber(), 'expected winner');
+      assert.equal(_voting.winner, result.toNumber(), 'Winner is validated with the expected winner');
     });
   });
 
   //Test case 5
-  it("valid votes", function () {
+  it("Valid Individual Votes", function () {
     return ballotInstance.getCount.call().then(function (result) {
-      assert.equal(3, result[0].toNumber(), 'expected winner');
-      assert.equal(1, result[1].toNumber(), 'expected winner');
-      assert.equal(1, result[2].toNumber(), 'expected winner');
-      assert.equal(1, result[3].toNumber(), 'expected winner');
+      assert.equal(3, result[0].toNumber(), 'Individual vote is validated with expected vote count');
+      assert.equal(1, result[1].toNumber(), 'Individual vote is validated with expected vote count');
+      assert.equal(1, result[2].toNumber(), 'Individual vote is validated with expected vote count');
+      assert.equal(1, result[3].toNumber(), 'Individual vote is validated with expected vote count');
     });
   });
 
 //Negative cases
-  it("should NOT accept unauthorized registration", function () {
+  it("Should NOT Accept Unauthorized Registration", function () {
   return ballotInstance.register(accounts[6], { from: accounts[1]})
 		.then(function (result) {
-				throw("modifer not working");
+				throw("Condition not implemented in Smart Contract");
     }).catch(function (e) {
-			if(e === "modifer not working") {
+			if(e === "Condition not implemented in Smart Contract") {
 				assert(false);
 			} else {
 				assert(true);
@@ -88,12 +88,12 @@ contract('BallotContract', function (accounts) {
 		})
   });
 
-  it("should NOT register already registered user", function () {
+  it("Should NOT Register Already Registered User", function () {
   return ballotInstance.register(accounts[1], { from: accounts[0]})
 		.then(function (result) {
-			throw("modifer not working");
+			throw("Condition not implemented in Smart Contract");
 	}).catch(function (e) {
-		if(e === "modifer not working") {
+		if(e === "Condition not implemented in Smart Contract") {
 			assert(false);
 		} else {
 			assert(true);
@@ -101,12 +101,12 @@ contract('BallotContract', function (accounts) {
 	})
 });
 
-  it("should NOT vote from unauthorized account", function () {
+  it("Should NOT Accept Unauthorized User Vote", function () {
   return ballotInstance.vote(1, {from: accounts[6]})
 		.then(function (result) {
-				throw("modifer not working");
+				throw("Condition not implemented in Smart Contract");
     }).catch(function (e) {
-			if(e === "modifer not working") {
+			if(e === "Condition not implemented in Smart Contract") {
 				assert(false);
 			} else {
 				assert(true);
@@ -114,12 +114,12 @@ contract('BallotContract', function (accounts) {
 		})
   });
 
-  it("should NOT vote twice", function () {
+  it("Should NOT Vote Again", function () {
   return ballotInstance.vote(1, {from: accounts[1]})
 		.then(function (result) {
-				throw("modifer not working");
+				throw("Condition not implemented in Smart Contract");
 		}).catch(function (e) {
-			if(e === "modifer not working") {
+			if(e === "Condition not implemented in Smart Contract") {
 				assert(false);
 			} else {
 				assert(true);
@@ -127,12 +127,12 @@ contract('BallotContract', function (accounts) {
 		})
 	});
 
-  it("should NOT vote unknown person", function () {
+  it("Should NOT Vote Unknown Entity", function () {
     return ballotInstance.vote(4, {from: accounts[5]})
 		.then(function (result) {
-				throw("modifer not working");
+				throw("Condition not implemented in Smart Contract");
 		}).catch(function (e) {
-			if(e === "modifer not working") {
+			if(e === "Condition not implemented in Smart Contract") {
 				assert(false);
 			} else {
 				assert(true);
