@@ -102,7 +102,7 @@ contract('Ballot Contract', function (accounts) {
 });
 
   it("Should NOT Accept Unauthorized User Vote", function () {
-  return ballotInstance.vote(1, {from: accounts[6]})
+  return ballotInstance.vote(1, {from: accounts[7]})
 		.then(function (result) {
 				throw("Condition not implemented in Smart Contract");
     }).catch(function (e) {
