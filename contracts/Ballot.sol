@@ -18,7 +18,7 @@ contract Ballot {
     /* struct Proposal {
         uint voteCount; // could add other data about proposal
     } */
-    address chairperson;
+    address public chairperson;
     mapping(address => Voter) public voters;
     uint[4] public proposals;
 
