@@ -56,7 +56,7 @@ App = {
   bindEvents: function() {
     $(document).on('click', '.btn-vote', App.handleVote);
     $(document).on('click', '#win-count', App.handleWinner);
-    $(document).on('click', '#register', function(){ var ad = $('#enter_address').val(); console.log(ad); App.handleRegister(ad);   });
+    $(document).on('click', '#register', function(){ var ad = $('#enter_address').val(); App.handleRegister(ad);   });
   },
 
   
@@ -81,7 +81,6 @@ App = {
         jQuery('#address_div').css('display','none');
         jQuery('#register_div').css('display','none');
       }else{
-        console.log("asdadad");
         jQuery('#address_div').css('display','block');
         jQuery('#register_div').css('display','block');
       }
