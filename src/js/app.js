@@ -6,7 +6,6 @@ App = {
   chairPerson:null,
   currentAccount:null,
   init: function() {
-    // Load CANDIDATES
     $.getJSON('../proposals.json', function(data) {
       var proposalsRow = $('#proposalsRow');
       var proposalTemplate = $('#proposalTemplate');
@@ -14,8 +13,6 @@ App = {
       for (i = 0; i < data.length; i ++) {
         proposalTemplate.find('.panel-title').text(data[i].name);
         proposalTemplate.find('img').attr('src', data[i].picture);
-        //proposalTemplate.find('.age').text(data[i].age);
-        //proposalTemplate.find('.party').text(data[i].party);
         proposalTemplate.find('.btn-vote').attr('data-id', data[i].id);
 
         proposalsRow.append(proposalTemplate.html());
@@ -48,8 +45,6 @@ App = {
 
     // Set the provider for our contract
     App.contracts.vote.setProvider(App.web3Provider);
-
-    // Use our contract to retrieve and mark the voted pets
     
     App.getChairperson();
     return App.bindEvents();
@@ -60,31 +55,27 @@ App = {
 
   bindEvents: function() {
     $(document).on('click', '.btn-vote', App.handleVote);
-    $(document).on('click', '#win-count', App.declareWinner);
+    $(document).on('click', '#win-count', App.handleWinner);
     $(document).on('click', '#register', function(){ var ad = $('#enter_address').val(); console.log(ad); App.handleRegister(ad);   });
   },
 
   
-populateAddress : function(){
- new Web3(new Web3.providers.HttpProvider(App.url)).eth.getAccounts((err, accounts) => {
-  console.log(typeof(accounts));
-  jQuery.each(accounts,function(i){
-    if(web3.eth.coinbase != accounts[i]){
-      var optionElement = '<option value="'+accounts[i]+'">'+accounts[i]+'</option';
-      jQuery('#enter_address').append(optionElement);  
-    }
-    
-  });
+  populateAddress : function(){
+    new Web3(new Web3.providers.HttpProvider(App.url)).eth.getAccounts((err, accounts) => {
+      jQuery.each(accounts,function(i){
+        if(web3.eth.coinbase != accounts[i]){
+          var optionElement = '<option value="'+accounts[i]+'">'+accounts[i]+'</option';
+          jQuery('#enter_address').append(optionElement);  
+        }
+      });
+    });
+  },
 
-  });
-},
-
-getChairperson : function(){
-  App.contracts.vote.deployed().then(function(instance) {
+  getChairperson : function(){
+    App.contracts.vote.deployed().then(function(instance) {
       return instance.chairperson();
     }).then(function(result) {
       App.chairPerson = result.toString();
-      console.log(result);
       App.currentAccount = web3.eth.coinbase;
       if(App.chairPerson != App.currentAccount){
         jQuery('#address_div').css('display','none');
@@ -94,17 +85,14 @@ getChairperson : function(){
         jQuery('#address_div').css('display','block');
         jQuery('#register_div').css('display','block');
       }
-  })
-},
+    })
+  },
 
-handleRegister: function(addr){
+  handleRegister: function(addr){
 
     var voteInstance;
-    console.log("entered address is:" + addr);
-
     App.contracts.vote.deployed().then(function(instance) {
       voteInstance = instance;
-
       return voteInstance.register(addr);
     }).then( function(result){
       if(result.receipt.status == '0x01')
@@ -114,16 +102,11 @@ handleRegister: function(addr){
     }).catch( function(err){
       alert(addr + " account registeration failed")
     })
+  },
 
-    
-},
-
-// handling the vote
   handleVote: function(event) {
     event.preventDefault();
-
     var proposalId = parseInt($(event.target).data('id'));
-
     var voteInstance;
 
     web3.eth.getAccounts(function(error, accounts) {
@@ -132,41 +115,29 @@ handleRegister: function(addr){
       App.contracts.vote.deployed().then(function(instance) {
         voteInstance = instance;
 
-        // Execute vote as a transaction by sending account
         return voteInstance.vote(proposalId, {from: account});
       }).then(function(result){
-          if(result.receipt.status == '0x01')
-          alert(account + " voting done successfully")
-        else
-          alert(account + " voting not done successfully due to revert")
+            if(result.receipt.status == '0x01')
+            alert(account + " voting done successfully")
+            else
+            alert(account + " voting not done successfully due to revert")
         }).catch(function(err){
           alert(account + " voting failed")
-        });
-      
-
     });
-    
+    });
   },
 
 
-  declareWinner : function() {
-        var voteInstance;
-    console.log(voteInstance);
-
+  handleWinner : function() {
+    var voteInstance;
     App.contracts.vote.deployed().then(function(instance) {
       voteInstance = instance;
-    //  console.log(voteInstance.winningProposal.call());
       return voteInstance.winningProposal();
     }).then(function(res){
-      console.log(res.toString());
-      console.log(App.names[res]);
       alert(App.names[res] + "  is the winner ! :)");
-
-
     }).catch(function(err){
       console.log(err.message);
     })
-    
   }
 };
 
