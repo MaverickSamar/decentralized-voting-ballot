@@ -19,7 +19,6 @@ App = {
         App.names.push(data[i].name);
       }
     });
-
     return App.initWeb3();
   },
 
@@ -51,15 +50,12 @@ App = {
   });
   },
 
-  
-
   bindEvents: function() {
     $(document).on('click', '.btn-vote', App.handleVote);
     $(document).on('click', '#win-count', App.handleWinner);
-    $(document).on('click', '#register', function(){ var ad = $('#enter_address').val(); App.handleRegister(ad);   });
+    $(document).on('click', '#register', function(){ var ad = $('#enter_address').val(); App.handleRegister(ad); });
   },
 
-  
   populateAddress : function(){
     new Web3(new Web3.providers.HttpProvider(App.url)).eth.getAccounts((err, accounts) => {
       jQuery.each(accounts,function(i){
@@ -88,7 +84,6 @@ App = {
   },
 
   handleRegister: function(addr){
-
     var voteInstance;
     App.contracts.vote.deployed().then(function(instance) {
       voteInstance = instance;
@@ -126,7 +121,6 @@ App = {
     });
   },
 
-
   handleWinner : function() {
     var voteInstance;
     App.contracts.vote.deployed().then(function(instance) {
@@ -140,10 +134,8 @@ App = {
   }
 };
 
-
 $(function() {
   $(window).load(function() {
     App.init();
-    console.log('starting app.js');
   });
 });
