@@ -123,7 +123,8 @@ App = {
 
   handleWinner : function() {
     var voteInstance;
-    App.contracts.vote.deployed().then(function(instance) {
+    App.contracts.vote.deployed().then(function(instance) 
+    {
       voteInstance = instance;
       return voteInstance.winningProposal();
     }).then(function(res){

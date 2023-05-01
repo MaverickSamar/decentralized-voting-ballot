@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.4.17;
 
 contract Ballot {
@@ -10,7 +11,8 @@ contract Ballot {
     }
 
     //modifer
-    modifier onlyOwner () {
+    modifier onlyOwner () 
+    {
       require(msg.sender == chairperson);
       _;
     }
